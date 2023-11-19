@@ -1,13 +1,18 @@
 import Tail from "tail";
-import {QLabel, QTextBrowser} from "@nodegui/nodegui";
+import {QColor, QLabel, QTableView, QTableWidget, QTableWidgetItem, QTextBrowser, QVariant} from "@nodegui/nodegui";
 
 const options = {separator: /[\r]{0,1}\n/, fromBeginning: true, fsWatchOptions: {}, follow: true, logger: console};
 
-export function watchAFile(filePath: string, label: QTextBrowser): Function {
+export function watchAFile(filePath: string, table: QTableWidget): Function {
     const fileWatch = new Tail.Tail(filePath, options);
-
+    let i = 1;
     fileWatch.on("line", function (data) {
-        label.append(data);
+        data = data.replace(/^\s+/, '');
+        table.insertRow(i)
+        const cell = new QTableWidgetItem();
+        cell.setText(data);
+        table.setItem(i, 0, cell);
+        i++;
     });
 
     fileWatch.on("error", function (error) {
@@ -16,7 +21,7 @@ export function watchAFile(filePath: string, label: QTextBrowser): Function {
 
     function unWatch() {
         fileWatch.unwatch();
-        label.clear();
+        table.clear();
     }
 
     return unWatch;
