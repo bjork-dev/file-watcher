@@ -1,7 +1,7 @@
 import {
     FileMode,
     FlexLayout, QAction,
-    QFileDialog, QGroupBox,
+    QFileDialog, QGroupBox, QIcon,
     QMainWindow,
     QMenu, QMenuBar,
     QPushButton, QTableView, QTableWidget,
@@ -12,15 +12,15 @@ import {watchAFile} from "./fileWatch";
 
 
 const win = new QMainWindow();
-win.setWindowTitle("File");
+win.setWindowTitle("File Watcher");
+win.setWindowIcon(new QIcon("./assets/file.png"));
 win.setGeometry(100, 100, 1000, 1000);
+
 const centralWidget = new QWidget();
 centralWidget.setObjectName("myroot");
 
 const rootLayout = new FlexLayout();
 centralWidget.setLayout(rootLayout);
-
-
 const table = new QTableWidget(1, 1);
 table.setColumnWidth(0, 1000);
 table.setObjectName("table");
@@ -29,8 +29,6 @@ table.setInlineStyle("flex: 1");
 // Create a menu bar
 const menuBar = new QMenuBar();
 win.setMenuBar(menuBar);
-
-
 
 const button = new QPushButton();
 button.setText('Open');
@@ -72,10 +70,9 @@ win.setStyleSheet(
       border-radius: '50%';
     }
     QPushButton {
-        display: 'flex-inline';
-        width: '100px';
-            margin-left: '5px';
-    }
+     width: '80px';
+     margin-left: '5px';
+        }
   `
 );
 win.show();
